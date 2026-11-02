@@ -1,0 +1,34 @@
+{
+  "viewer_id": "00000000-0000-0000-0000-000000000101",
+  "result_status": "OK",
+  "ranking_mode": "PERSONALIZED",
+  "model_version": "ml02-mals-rank-v0.3.0",
+  "model_rule_version_hash": "d226a1be618f7ad779e2957f76d5f5ba10bcfcb1ac64744a18bc8e14d6ec3eb2",
+  "recommendations": [
+    {
+      "candidate_id": "00000000-0000-0000-0000-000000000201",
+      "rank_position": 1,
+      "composite_relevance_score": 0.970855,
+      "feature_sub_scores": {
+        "interest": 1.0,
+        "intent": 1.0,
+        "profile": 0.9,
+        "freshness": 0.9057
+      },
+      "diversity_adjustment": 0.0,
+      "reason_codes": [
+        "SHARED_INTEREST_ARTIFICIAL_INTELLIGENCE",
+        "SHARED_INTEREST_DBMS",
+        "SHARED_INTEREST_PYTHON"
+      ]
+    }
+  ],
+  "persistence": {
+    "run_id": "<generated-run-uuid>",
+    "saved": true,
+    "output_tables": [
+      "ml02.ranking_runs",
+      "ml02.ranking_results"
+    ]
+  }
+}

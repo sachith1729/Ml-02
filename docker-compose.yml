@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ml02-postgres
+    environment:
+      POSTGRES_DB: ml02_demo
+      POSTGRES_USER: ml02_user
+      POSTGRES_PASSWORD: ml02_dev_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - ml02_pgdata:/var/lib/postgresql/data
+      - ./sql/001_mock_schema.sql:/docker-entrypoint-initdb.d/001_mock_schema.sql:ro
+      - ./sql/002_mock_seed.sql:/docker-entrypoint-initdb.d/002_mock_seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ml02_user -d ml02_demo"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    container_name: ml02-api
+    environment:
+      DATABASE_URL: postgresql://ml02_user:ml02_dev_password@db:5432/ml02_demo
+      APP_ENV: development
+      ML02_ENABLE_MOCK_FRESHNESS: "true"
+      ML02_FRESHNESS_HALF_LIFE_DAYS: "7"
+      ML02_MODEL_VERSION: ml02-mals-rank-v0.3.1
+    ports:
+      - "8001:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  ml02_pgdata:
